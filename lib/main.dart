@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sanlam_agents/screens/otp.dart';
 
+import 'screens/bottomnavigationbar.dart';
 import 'screens/login.dart';
+import 'screens/settings.dart';
 
 
 
@@ -18,6 +21,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const LogIn());
+        home: BottomNavBar());
   }
 }
