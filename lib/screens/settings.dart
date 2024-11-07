@@ -133,14 +133,14 @@ class _SettingsState extends State<Settings> {
               ],
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.edit, color: Colors.black),
-            onPressed: () {
-              // Focus on the text field when the icon is pressed
-              FocusScope.of(context).requestFocus(FocusNode());
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-          ),
+          // IconButton(
+          //   icon: Icon(Icons.edit, color: Colors.black),
+          //   onPressed: () {
+          //     // Focus on the text field when the icon is pressed
+          //     FocusScope.of(context).requestFocus(FocusNode());
+          //     FocusScope.of(context).requestFocus(FocusNode());
+          //   },
+          // ),
         ],
       ),
     );

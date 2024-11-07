@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'screens/bottomnavigationbar.dart';
 import 'screens/home.dart';
 import 'screens/login.dart';
-import 'splash.dart';
 
 
 
@@ -21,6 +20,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Splash());
+        home: LogIn());
   }
 }
