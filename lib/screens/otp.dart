@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
 import 'package:flutter/material.dart';
+import 'package:sanlam_agents/screens/home.dart';
+
+import 'bottomnavigationbar.dart';
 
 class OTPPage extends StatelessWidget {
   const OTPPage({super.key});
@@ -91,7 +94,12 @@ class OTPPage extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => BottomNavBar()), 
+  );                  
+                },
                 child: Text(
                   'Sign In',
                   style: TextStyle(color: Colors.white, fontSize: 20.0),

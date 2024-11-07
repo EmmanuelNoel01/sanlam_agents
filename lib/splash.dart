@@ -16,7 +16,14 @@ class _SplashState extends State<Splash> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/sanlamlogo.png'),
+            ClipOval(
+              child: Image.asset(
+                'assets/sanlamlogo.png',
+                width: 100.0, 
+                height: 100.0, 
+                fit: BoxFit.cover, 
+              ),
+            ),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:sanlam_agents/screens/otp.dart';
 import 'package:sanlam_agents/screens/signup.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -150,7 +151,10 @@ class _LogInState extends State<LogIn> {
               // Request OTP button
               ElevatedButton(
                 onPressed: () {
-                  // Action for OTP request
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => OTPPage()),
+  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF2196F3),

@@ -1,8 +1,11 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'login.dart';
 
 class Settings extends StatefulWidget {
+  const Settings({super.key});
+
   @override
   _SettingsState createState() => _SettingsState();
 }
@@ -14,7 +17,6 @@ class _SettingsState extends State<Settings> {
   String dateOfBirth = "";
   String phone = "";
 
-  // Controllers for the text fields
   final TextEditingController addressController = TextEditingController();
   final TextEditingController dateOfBirthController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -22,7 +24,6 @@ class _SettingsState extends State<Settings> {
   @override
   void initState() {
     super.initState();
-    // Initialize controllers with current values
     addressController.text = address;
     dateOfBirthController.text = dateOfBirth;
     phoneController.text = phone;
@@ -30,7 +31,6 @@ class _SettingsState extends State<Settings> {
 
   @override
   void dispose() {
-    // Dispose controllers when the widget is removed
     addressController.dispose();
     dateOfBirthController.dispose();
     phoneController.dispose();
@@ -63,7 +63,11 @@ class _SettingsState extends State<Settings> {
                 Text(email, style: TextStyle(fontSize: 18, color: Colors.white)),
                 SizedBox(height: 10),
                 GestureDetector(
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => LogIn()),
+                    );
+                  },
                   child: Text("LOGOUT", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
                 ),
               ],
@@ -71,7 +75,7 @@ class _SettingsState extends State<Settings> {
           ],
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView( // Wrap the body in a SingleChildScrollView
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -79,7 +83,7 @@ class _SettingsState extends State<Settings> {
             _buildSettingField("ADDRESS", addressController),
             _buildSettingField("DATE OF BIRTH", dateOfBirthController),
             _buildSettingField("PHONE", phoneController),
-            Spacer(),
+            SizedBox(height: 20), // Add some spacing before the save button
             SizedBox(
               width: 200,
               child: ElevatedButton(
@@ -94,15 +98,14 @@ class _SettingsState extends State<Settings> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   minimumSize: Size.fromHeight(48),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
                 child: Text("Save", style: TextStyle(fontSize: 18, color: Colors.white)),
-                
               ),
             ),
-            SizedBox(height: 100),
+            SizedBox(height: 100), // Add spacing at the bottom
           ],
         ),
       ),
@@ -120,7 +123,6 @@ class _SettingsState extends State<Settings> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(label, style: TextStyle(fontSize: 14, color: Colors.grey)),
-                // SizedBox(height: 2.0),
                 TextField(
                   controller: controller,
                   decoration: InputDecoration(
