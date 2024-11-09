@@ -44,7 +44,8 @@ class _SettingsState extends State<Settings> {
         backgroundColor: Colors.blue,
         elevation: 0,
         centerTitle: true,
-        toolbarHeight: 300,
+        toolbarHeight: 300,        
+      automaticallyImplyLeading: false,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -62,14 +63,14 @@ class _SettingsState extends State<Settings> {
                 SizedBox(height: 5),
                 Text(email, style: TextStyle(fontSize: 18, color: Colors.white)),
                 SizedBox(height: 10),
-                GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => LogIn()),
-                    );
-                  },
-                  child: Text("LOGOUT", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
-                ),
+                // GestureDetector(
+                //   onTap: (){
+                //     Navigator.of(context).pushReplacement(
+                //       MaterialPageRoute(builder: (context) => LogIn()),
+                //     );
+                //   },
+                //   child: Text("LOGOUT", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
+                // ),
               ],
             ),
           ],
@@ -132,14 +133,14 @@ class _SettingsState extends State<Settings> {
               ],
             ),
           ),
-          // IconButton(
-          //   icon: Icon(Icons.edit, color: Colors.black),
-          //   onPressed: () {
-          //     // Focus on the text field when the icon is pressed
-          //     FocusScope.of(context).requestFocus(FocusNode());
-          //     FocusScope.of(context).requestFocus(FocusNode());
-          //   },
-          // ),
+          IconButton(
+            icon: Icon(Icons.edit, color: Colors.black),
+            onPressed: () {
+              // Focus on the text field when the icon is pressed
+              FocusScope.of(context).requestFocus(FocusNode());
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+          ),
         ],
       ),
     );
