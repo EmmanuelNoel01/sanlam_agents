@@ -75,7 +75,7 @@ class _SettingsState extends State<Settings> {
           ],
         ),
       ),
-      body: SingleChildScrollView( // Wrap the body in a SingleChildScrollView
+      body: SingleChildScrollView( 
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -83,12 +83,11 @@ class _SettingsState extends State<Settings> {
             _buildSettingField("ADDRESS", addressController),
             _buildSettingField("DATE OF BIRTH", dateOfBirthController),
             _buildSettingField("PHONE", phoneController),
-            SizedBox(height: 20), // Add some spacing before the save button
+            SizedBox(height: 20), 
             SizedBox(
               width: 200,
               child: ElevatedButton(
-                onPressed: () {
-                  // Save changes functionality
+                onPressed: () {  
                   setState(() {
                     address = addressController.text;
                     dateOfBirth = dateOfBirthController.text;
