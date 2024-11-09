@@ -10,29 +10,45 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   WebViewController? webViewController;
+  bool isLoading = true; // Loading state variable
+
   @override
   void initState() {
-    webViewController = WebViewController()
-    ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    ..setNavigationDelegate(NavigationDelegate(
-      onNavigationRequest: (request) {
-        if(request.url == "https://agency.sanlam4u.co.ug"){
-          return NavigationDecision.prevent;
-        } else {
-          return NavigationDecision.navigate;
-        }
-      },
-    ))
-    ..loadRequest(Uri.https("agency.sanlam4u.co.ug"))
-    ..clearCache();
     super.initState();
+    webViewController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(NavigationDelegate(
+        onPageFinished: (url) {
+          setState(() {
+            isLoading = false; 
+          });
+        },
+        onNavigationRequest: (request) {
+          if (request.url == "https://agency.sanlam4u.co.ug") {
+            return NavigationDecision.prevent;
+          } else {
+            return NavigationDecision.navigate;
+          }
+        },
+      ))
+      ..loadRequest(Uri.https("agency.sanlam4u.co.ug"))
+      ..clearCache();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: WebViewController !=null ? WebViewWidget(controller: webViewController!)
-      : Container(),
-      ) );
+      body: SafeArea(
+        child: Stack(
+          children: [
+            WebViewWidget(controller: webViewController!), 
+            if (isLoading)
+              Center(
+                child: CircularProgressIndicator(),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 }
