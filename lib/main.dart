@@ -1,8 +1,12 @@
+// ignore_for_file: prefer_const_constructors, unused_import
+
 import 'package:flutter/material.dart';
+import 'package:sanlam_agents/screens/settings.dart';
 
 import 'screens/bottomnavigationbar.dart';
 import 'screens/home.dart';
 import 'screens/login.dart';
+import 'screens/otp.dart';
 
 
 
@@ -20,6 +24,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: BottomNavBar());
+        home: Settings());
   }
 }

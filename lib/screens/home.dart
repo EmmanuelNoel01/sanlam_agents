@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -10,7 +12,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   WebViewController? webViewController;
-  bool isLoading = true; // Loading state variable
+  bool isLoading = true; 
 
   @override
   void initState() {

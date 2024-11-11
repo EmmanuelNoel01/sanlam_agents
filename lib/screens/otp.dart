@@ -1,9 +1,5 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last
-
 import 'package:flutter/material.dart';
-import 'package:sanlam_agents/screens/home.dart';
-
-import 'bottomnavigationbar.dart';
+import 'package:sanlam_agents/screens/bottomnavigationbar.dart';
 
 class OTPPage extends StatelessWidget {
   const OTPPage({super.key});
@@ -11,16 +7,16 @@ class OTPPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor:  Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: EdgeInsets.all(16.0),
-              child: Image.asset('assets/otp.png', width: 500, height: 500),
+              child: Image.asset('assets/otp.png', width: 500, height: 500,),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -30,13 +26,13 @@ class OTPPage extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 5.0), // Changed to blue
+                          borderSide: BorderSide(color: Colors.blue, width: 5.0),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         hintStyle: TextStyle(color: Colors.black),
                       ),
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style:  TextStyle(color:Colors.black),
                     ),
                   ),
                 ),
@@ -46,13 +42,13 @@ class OTPPage extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 2.0), // Changed to blue
+                          borderSide: BorderSide(color: Colors.blue,width: 2.0),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         hintStyle: TextStyle(color: Colors.black),
                       ),
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style:  TextStyle(color:Colors.black),
                     ),
                   ),
                 ),
@@ -62,13 +58,13 @@ class OTPPage extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 2.0), // Changed to blue
+                          borderSide: BorderSide(color: Colors.blue,width: 2.0),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         hintStyle: TextStyle(color: Colors.black),
                       ),
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style:  TextStyle(color:Colors.black),
                     ),
                   ),
                 ),
@@ -78,27 +74,27 @@ class OTPPage extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 2.0), // Changed to blue
+                          borderSide: BorderSide(color: Colors.blue,width: 2.0),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         hintStyle: TextStyle(color: Colors.black),
                       ),
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style:  TextStyle(color:Colors.black),
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 50,),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: ElevatedButton(
-                onPressed: () {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => BottomNavBar()), 
-  );                  
+                onPressed:() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BottomNavBar()),
+                    );
                 },
                 child: Text(
                   'Sign In',
@@ -110,14 +106,14 @@ class OTPPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 16.0,),
             TextButton(
-              onPressed: () {},
+              onPressed: (){},
               child: Text(
                 'Haven\'t Received the code? Resend',
-                style: TextStyle(color: Colors.blue, fontSize: 15),
+                style: TextStyle(color: Colors.blue, fontSize: 15, decoration: TextDecoration.underline, decorationColor: Colors.blue),
               ),
-            ),
+            )
           ],
         ),
       ),
