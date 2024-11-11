@@ -25,51 +25,51 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
       backgroundColor: Colors.blue,
       body: tabs[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items:[
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: const EdgeInsets.only(right: 40), 
-              child: Icon(Icons.home_outlined),
-            ),
-            label: '',
+      bottomNavigationBar: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(
+                icon: Padding(
+                  padding: const EdgeInsets.only(right: 40),
+                  child: Icon(Icons.home_outlined),
+                ),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 40),
+                  child: Icon(Icons.settings_outlined),
+                ),
+                label: '',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.black,
+            backgroundColor: Colors.blue,
+            iconSize: 30,
+            onTap: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
           ),
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: const EdgeInsets.only(left: 40),
-              child: Icon(Icons.settings_outlined),
+          Positioned(
+            left: MediaQuery.of(context).size.width / 2 - 50, 
+            bottom: 20, 
+            child: ClipOval(
+              child: Image.asset(
+                'assets/bottomnav.png',
+                width: 80, 
+                height: 80, 
+                fit: BoxFit.cover, 
+              ),
             ),
-            label: '',
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black,
-        backgroundColor: Colors.blue,
-        iconSize: 30,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
       ),
-      floatingActionButton: Container(
-        width: 100,
-        height: 100,
-        child: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Colors.white,
-          child: Image.asset(
-            'assets/bottomnav.png',
-            width: 50,
-            height: 50, 
-          ),
-          shape: CircleBorder(
-            side: BorderSide(color: Colors.blue),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
