@@ -116,18 +116,12 @@ class _SignUpState extends State<SignUp> {
                         child: Text("Sign Up", style: TextStyle(fontSize: 16)),
                       ),
                     ],
-                    onPressed: (int index) {
-                      // setState(() {
-                      //   _selectedIndex = index; // Update the selected index
-                      //   if (_selectedIndex == 0) {
-                      //     // Only navigate to LogIn if "Sign In" is selected
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(builder: (context) => const LogIn()),
-                      //     );
-                      //   }
-                      // });
-                    },
+                  onPressed: (int index) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LogIn()),
+                    );
+                  },
                   ),
                 ),
 

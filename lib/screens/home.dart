@@ -1,95 +1,89 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _WebViewScreenState();
+  State<Home> createState() => _HomeState();
 }
 
-class _WebViewScreenState extends State<Home> {
-  late final WebViewController controller;
+class _HomeState extends State<Home> {
+  WebViewController? webViewController;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
+    webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
-        onPageStarted: (url) {
-          setState(() => isLoading = true);
-        },
         onPageFinished: (url) {
-          setState(() => isLoading = false);
+          setState(() {
+            isLoading = false; // Hide loader when page finishes loading
+          });
         },
-        onNavigationRequest: (request) async {
-          if (request.url.endsWith('.pdf')) {
-            await _downloadFile(request.url);
-            return NavigationDecision.prevent;
+        onNavigationRequest: (request) {
+          // Check if the URL is a download link
+          if (isDownloadLink(request.url)) {
+            downloadFile(request.url);
+            return NavigationDecision.prevent; // Prevent navigation
+          } else {
+            setState(() {
+              isLoading = true; // Show loader when navigating to a new page
+            });
+            return NavigationDecision.navigate;
           }
-          return NavigationDecision.navigate;
         },
       ))
-      // Replace with your website URL
-      ..loadRequest(Uri.parse('https://agency.sanlam4u.co.ug/fpp.php'));
+      ..loadRequest(Uri.https("agency.sanlam4u.co.ug"))
+      ..clearCache();
   }
 
-  Future<void> _downloadFile(String url) async {
-    // Request storage permission
-    var status = await Permission.storage.request();
-    if (!status.isGranted) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Storage permission is required')),
-        );
-      }
-      return;
-    }
+  bool isDownloadLink(String url) {
+    // Simple check for file extensions to identify download links
+    return url.endsWith('.pdf') || url.endsWith('.doc') || url.endsWith('.xls');
+  }
 
+  Future<void> downloadFile(String url) async {
     try {
-      final dir = await getApplicationDocumentsDirectory();
-      final fileName = 'download_${DateTime.now().millisecondsSinceEpoch}.pdf';
-      final filePath = '${dir.path}/$fileName';
+      // Specify the download directory
+      String downloadPath = '/storage/emulated/0/Download/';
+      String fileName = Uri.parse(url).pathSegments.last; // Get the original file name
+      String filePath = '$downloadPath$fileName'; // Full path for the file
 
-      await Dio().download(url, filePath);
+      Dio dio = Dio();
+      await dio.download(url, filePath);
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('PDF downloaded successfully to: $filePath'),
-            duration: const Duration(seconds: 3),
-          ),
-        );
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('File downloaded to: $filePath')),
+      );
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error downloading PDF: $e')),
-        );
-      }
+      print("Download error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to download file')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('WebView PDF Downloader'),
-      ),
-      body: Stack(
-        children: [
-          WebViewWidget(controller: controller),
-          if (isLoading)
-            const Center(
-              child: CircularProgressIndicator(),
-            ),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            WebViewWidget(controller: webViewController!),
+            if (isLoading)
+              Center(
+                child: CircularProgressIndicator(),
+              ),
+          ],
+        ),
       ),
     );
   }
