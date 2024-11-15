@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:dio/dio.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,61 +14,56 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  WebViewController? webViewController;
+  late WebViewController webViewController;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    _initializeDownloader();
     webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
         onPageFinished: (url) {
           setState(() {
-            isLoading = false; // Hide loader when page finishes loading
+            isLoading = false;
           });
         },
         onNavigationRequest: (request) {
-          // Check if the URL is a download link
-          if (isDownloadLink(request.url)) {
-            downloadFile(request.url);
-            return NavigationDecision.prevent; // Prevent navigation
-          } else {
-            setState(() {
-              isLoading = true; // Show loader when navigating to a new page
-            });
-            return NavigationDecision.navigate;
+          if (_isDownloadableFile(request.url)) {
+            _downloadFile(request.url);
+            return NavigationDecision.prevent; 
           }
+          return NavigationDecision.navigate; 
         },
       ))
-      ..loadRequest(Uri.https("agency.sanlam4u.co.ug"))
+      ..loadRequest(Uri.parse("https://agency.sanlam4u.co.ug"))
       ..clearCache();
   }
 
-  bool isDownloadLink(String url) {
-    // Simple check for file extensions to identify download links
-    return url.endsWith('.pdf') || url.endsWith('.doc') || url.endsWith('.xls');
+  Future<void> _initializeDownloader() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await FlutterDownloader.initialize(debug: true);
   }
 
-  Future<void> downloadFile(String url) async {
-    try {
-      // Specify the download directory
-      String downloadPath = '/storage/emulated/0/Download/';
-      String fileName = Uri.parse(url).pathSegments.last; // Get the original file name
-      String filePath = '$downloadPath$fileName'; // Full path for the file
+  bool _isDownloadableFile(String url) {
+    return url.endsWith('.pdf') || url.endsWith('.zip') || url.endsWith('.docx') || url.endsWith('.xlsx');
+  }
 
-      Dio dio = Dio();
-      await dio.download(url, filePath);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('File downloaded to: $filePath')),
-      );
-    } catch (e) {
-      print("Download error: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to download file')),
-      );
+  Future<void> _downloadFile(String url) async {
+    if (Platform.isAndroid) {
+      final status = await Permission.storage.request();
+      if (status.isDenied) {
+        throw 'Storage permission is needed to download files.';
+      }
     }
+
+    final taskId = await FlutterDownloader.enqueue(
+      url: url,
+      savedDir: '/storage/emulated/0/Download', 
+      showNotification: true,
+      openFileFromNotification: true, 
+    );
   }
 
   @override
@@ -77,7 +72,7 @@ class _HomeState extends State<Home> {
       body: SafeArea(
         child: Stack(
           children: [
-            WebViewWidget(controller: webViewController!),
+            WebViewWidget(controller: webViewController),
             if (isLoading)
               Center(
                 child: CircularProgressIndicator(),

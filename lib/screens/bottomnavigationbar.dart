@@ -57,7 +57,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             },
           ),
           Positioned(
-            left: MediaQuery.of(context).size.width / 2 - 50, 
+            left: MediaQuery.of(context).size.width / 2 - 40, 
             bottom: 20, 
             child: ClipOval(
               child: Image.asset(
