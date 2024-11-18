@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:open_filex/open_filex.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -60,10 +59,19 @@ class _HomeState extends State<Home> {
 
     final taskId = await FlutterDownloader.enqueue(
       url: url,
-      savedDir: '/storage/emulated/0/Download', 
+      savedDir: '/storage/emulated/0/Download',
       showNotification: true,
-      openFileFromNotification: true, 
+      openFileFromNotification: true,
     );
+
+    // Open the file after downloading
+    FlutterDownloader.registerCallback((id, status, progress) async {
+      if (status == DownloadTaskStatus.complete) {
+        // The file is downloaded, now we can open it
+        final filePath = '/storage/emulated/0/Download/${url.split('/').last}';
+        OpenFilex.open(filePath);
+      }
+    });
   }
 
   @override
